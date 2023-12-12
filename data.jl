@@ -1,13 +1,11 @@
 using JLD2
 
-include("./data/mle/mle_data.jl")
-include("./data/bi/bi_data.jl")
-
 save_path(::Val{:MLE}) = "./data/mle"
 save_path(::Val{:BI}) = "./data/bi"
 
-function load_experiment_data(model_fitter_mode)
+function load_experiment_data(model_fitter_mode; info=true)
     data = experiment_data(Val(model_fitter_mode))
+    @info "Loaded $(size(data)[1]) data points."
     X = data[:, 1:4]' |> collect
     Y = data[:, 5:6]' |> collect
     return X, Y

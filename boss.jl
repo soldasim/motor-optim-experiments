@@ -29,9 +29,8 @@ function get_priors(x_dim, y_dim)
     length_scale_priors = fill(Product([truncated(Normal(0., dif/3); lower=0.) for dif in (domain[2][i]-domain[1][i] for i in 1:x_dim)]), y_dim)
     
     # y: dP, Tav
-    # TODO: Choose appropriate noise prior.
     # noise_var_priors = fill(Dirac(1e-8), y_dim)
-    noise_var_priors = [truncated(Normal(0., 1.); lower=0.), truncated(Normal(0., 0.01); lower=0.)]
+    noise_var_priors = [truncated(Normal(0., 1.); lower=0.), truncated(Normal(0., 1.); lower=0.)]
 
     return θ_priors, length_scale_priors, noise_var_priors
 end

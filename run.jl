@@ -1,6 +1,10 @@
 include("boss.jl")
 include("data.jl")
 
+using Revise
+includet("data/mle/mle_data.jl")
+includet("data/bi/bi_data.jl")
+
 # - - - RUN ONE OF THESE - - - - -
 function run_mle()
     run_(; model_fitter_mode=:MLE, surrogate_mode=:GP)
