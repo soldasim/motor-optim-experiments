@@ -1,11 +1,16 @@
 using JLD2
 
+const ROUND_DIGITS = 4
+
 save_path(::Val{:MLE}) = "./data/mle"
 save_path(::Val{:BI}) = "./data/bi"
 
+data_path(::Val{:MLE}) = "./data/mle/mle_data.jl"
+data_path(::Val{:BI}) = "./data/bi/bi_data.jl"
+
 function load_experiment_data(model_fitter_mode; info=true)
     data = experiment_data(Val(model_fitter_mode))
-    @info "Loaded $(size(data)[1]) data points."
+    info && @info "Loaded $(size(data)[1]) data points."
     X = data[:, 1:4]' |> collect
     Y = data[:, 5:6]' |> collect
     return X, Y
@@ -34,4 +39,18 @@ function data_dict(x, acq, data)
             "noise_vars" => data.noise_vars,
         ),
     )
+end
+
+function save_new_x(model_fitter_mode, x)
+    path = data_path(Val(model_fitter_mode))
+    
+    data = read(path, String)
+    idx = findlast(']', data)
+    data = data[1:idx-1]
+    x_str = join(string.(round.(x; digits=ROUND_DIGITS)), ' ')
+    data *=  x_str * " \n]\n"
+
+    open(path, "w") do file
+        write(file, data)
+    end
 end

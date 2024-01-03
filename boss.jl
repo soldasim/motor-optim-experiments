@@ -145,6 +145,7 @@ function test_script(problem;
     acq_maximizer_mode=:optim,  # :optim, :Random
     surrogate_mode,  # :Semipar, :GP, :Param
     parallel=true,
+    info=true,
 )
     if acq_maximizer_mode == :Random
         model_fitter_mode = :Random
@@ -156,7 +157,7 @@ function test_script(problem;
     acquisition = get_acquisition()
 
     options = BOSS.BossOptions(;
-        info=true,
+        info,
         debug=false,
     )
 
