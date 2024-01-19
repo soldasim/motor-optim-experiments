@@ -4,7 +4,7 @@ include("../data.jl")
 include("../Surrogate_Q_volne_parametry.jl")
 
 @warn "Check which data files are loaded!"
-run = "data_1"
+run = "data"
 include("../"*run*"/mle/mle_data.jl")
 include("../"*run*"/bi/bi_data.jl")
 
@@ -53,5 +53,5 @@ function fitness(x, y)
 end
 
 in_domain(x) = all(ModelParam.domain()[1] .<= x .<= ModelParam.domain()[2])
-feasible_x(x) = all(ModelParam.check_feas(x...) .>= 0.)
+feasible_x(x) = all(ModelParam.check_feas(x...) .>= -1e-4)
 feasible_y(y) = all(y .<= ModelParam.y_max())
